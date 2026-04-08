@@ -6,7 +6,6 @@ from safetensors.torch import load_file
 from torch import nn
 import torch
 
-
 MODEL_CONFIG_DEFAULTS = OmegaConf.create(
     {
         "auto_aspect_ratio": True,

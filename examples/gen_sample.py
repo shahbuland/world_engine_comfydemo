@@ -13,7 +13,7 @@ from world_engine import WorldEngine, CtrlInput
 
 
 # Create inference engine
-engine = WorldEngine(sys.argv[1], device="cuda")
+engine = WorldEngine(sys.argv[1], quant=None, device="cuda")
 
 
 # Define sequence of controller inputs applied
@@ -39,6 +39,7 @@ with urllib.request.urlopen("https://api.github.com/repos/Overworldai/Biome/cont
 url = random.choice(urls)
 
 seed_frame = cv2.imdecode(np.frombuffer(urllib.request.urlopen(url).read(), np.uint8), cv2.IMREAD_COLOR)
+seed_frame = cv2.resize(seed_frame, (1280, 720))
 seed_frame_x4 = torch.from_numpy(np.repeat(seed_frame[None], 4, axis=0))
 
 
