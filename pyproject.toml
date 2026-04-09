@@ -20,7 +20,7 @@ dependencies = [
   # Triton (platform-specific)
   "triton==3.6.0; sys_platform == 'linux'",
   "triton-windows==3.6.0.post26; sys_platform == 'win32'",
-  "gemlite @ git+https://github.com/dropbox/gemlite.git"
+  "gemlite @ https://github.com/dropbox/gemlite/archive/ebfcc197d694acd4ca8dfaadf5fceb3570401df3.zip",
 ]
 
 [tool.setuptools]
