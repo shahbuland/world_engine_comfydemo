@@ -58,6 +58,7 @@ class WorldEngine:
             self.model_cfg.merge_with(model_config_overrides)
 
         with torch.device(self.device):
+            pH, pW = self.model_cfg.patch
             # Load Model / Modules
             self.vae = get_ae(
                 self.model_cfg.ae_uri,
@@ -65,6 +66,10 @@ class WorldEngine:
                 auto_aspect_ratio=self.model_cfg.auto_aspect_ratio,
                 dtype=dtype,
                 device=device,
+                **(
+                    {"height": self.model_cfg.height * pH, "width": self.model_cfg.width * pW}
+                    if self.model_cfg.taehv_ae else {}
+                ),
             )
 
             self.prompt_encoder = None
@@ -83,7 +88,6 @@ class WorldEngine:
             # Inference Scheduler
             self.scheduler_sigmas = torch.tensor(self.model_cfg.scheduler_sigmas, dtype=dtype, device=device)
 
-            pH, pW = self.model_cfg.patch
             self.frm_shape = 1, 1, self.model_cfg.channels, self.model_cfg.height * pH, self.model_cfg.width * pW
 
             # State
