@@ -1,0 +1,8 @@
+pygame>=2.5
+opencv-python
+Pillow
+requests
+numpy
+python-dotenv
+fal-client
+# world_engine is installed from the repo root

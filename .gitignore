@@ -1,4 +1,6 @@
 scratch/
+.env
+comfydemo/.env
 
 # Sphinx documentation
 docs/build/
