@@ -223,7 +223,10 @@ def main():
 
             elif event.type == pygame.KEYDOWN:
 
-                if state == "edit_typing":
+                if event.key == pygame.K_ESCAPE and state != "edit_typing":
+                    running = False
+
+                elif state == "edit_typing":
                     if event.key == pygame.K_RETURN and typed_text.strip():
                         start_generation(typed_text.strip())
                         typed_text = ""
@@ -247,9 +250,7 @@ def main():
                         state = "edit_idle"
 
                 elif state == "playing":
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                    elif event.key == pygame.K_p:
+                    if event.key == pygame.K_p:
                         loop.resume() if loop.is_paused else loop.pause()
                     elif event.key == pygame.K_6:
                         loop.pause()
