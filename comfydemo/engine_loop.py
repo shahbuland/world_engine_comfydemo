@@ -75,6 +75,23 @@ class EngineLoop:
         self._seed_frames = seed_frames
         self._reset_requested = True
 
+    def restart_from(self, frames: np.ndarray):
+        """
+        Drop all KV cache context and restart generation from the given frames.
+        frames: [4, H, W, 3] uint8 numpy array.
+        Stores the VAE-decoded version as last_frames so the caller can see
+        the compression artefacts confirming the frame went through the model.
+        Call from the main thread (e.g. after compositing HUD elements).
+        """
+        self.engine.reset()
+        self._seed_frames = frames
+        tensor = torch.from_numpy(frames).to(self._device)
+        decoded = self.engine.append_frame(tensor)   # [4, H, W, 3] uint8 tensor
+        self.last_frames = decoded.cpu().numpy()
+        self._active_secs = 0.0
+        self._last_step_t = None
+        self._reset_requested = False
+
     def pause(self):
         self._paused = True
         self._last_step_t = None  # don't count paused time toward auto-reset
